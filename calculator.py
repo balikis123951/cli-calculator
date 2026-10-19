@@ -1,3 +1,4 @@
+
 def add(a, b):
     return a + b
 
@@ -11,30 +12,40 @@ def multiply(a, b):
 
 
 def divide(a, b):
-    if b == 0:
-        return None
     return a / b
 
 
 def main():
+    history = []
+
     print("========== CLI CALCULATOR ==========")
 
     while True:
         print("\nChoose an operation:")
-        print("1. Addition (+)")
-        print("2. Subtraction (-)")
-        print("3. Multiplication (*)")
-        print("4. Division (/)")
-        print("5. Exit")
+        print("+  Addition")
+        print("-  Subtraction")
+        print("*  Multiplication")
+        print("/  Division")
+        print("h  Calculation History")
+        print("q  Quit")
 
-        choice = input("Enter your choice (1-5): ")
+        choice = input("Enter your choice: ").strip().lower()
 
-        if choice == "5":
-            print("Thank you for using the calculator!")
+        if choice == "q":
+            print("Thank you for using the calculator. Goodbye!")
             break
 
-        if choice not in ("1", "2", "3", "4"):
-            print("Invalid choice. Please select between 1 and 5.")
+        elif choice == "h":
+            if not history:
+                print("No calculations in history yet.")
+            else:
+                print("\n========== CALCULATION HISTORY ==========")
+                for calculation in history:
+                    print(calculation)
+            continue
+
+        elif choice not in ("+", "-", "*", "/"):
+            print("Invalid choice. Please choose +, -, *, /, h, or q.")
             continue
 
         try:
@@ -44,25 +55,25 @@ def main():
             print("Invalid input! Please enter valid numbers.")
             continue
 
-        if choice == "1":
+        if choice == "+":
             result = add(num1, num2)
-            print("The sum is:", result)
 
-        elif choice == "2":
+        elif choice == "-":
             result = subtract(num1, num2)
-            print("The difference is:", result)
 
-        elif choice == "3":
+        elif choice == "*":
             result = multiply(num1, num2)
-            print("The product is:", result)
 
-        elif choice == "4":
+        else:
+            if num2 == 0:
+                print("Error: Cannot divide by zero.")
+                continue
             result = divide(num1, num2)
 
-            if result is None:
-                print("Error: Cannot divide by zero.")
-            else:
-                print("The quotient is:", result)
+        print("Result:", result)
+
+        calculation = f"{num1} {choice} {num2} = {result}"
+        history.append(calculation)
 
 
 if __name__ == "__main__":
